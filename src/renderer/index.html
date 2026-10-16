@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; script-src 'self'">
+  <title>Regruha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;900&family=JetBrains+Mono:wght@300;400;500;700&display=swap">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="app">
+    <main class="content">
+      <section class="view view-site is-active" id="view-site">
+        <div class="site-loader" id="site-loader">
+          <div class="loader-grid"></div>
+          <div class="loader-inner">
+            <span class="loader-mark">&gt;_</span>
+            <span class="loader-text">ЗАГРУЗКА REGRUHA…</span>
+          </div>
+        </div>
+        <div class="site-offline" id="site-offline" hidden>
+          <div class="eyebrow">НЕТ СОЕДИНЕНИЯ</div>
+          <h2 class="title-lg">Сайт не отвечает</h2>
+          <p class="muted"><span id="offline-url" data-no-brand></span> Проверьте интернет или выберите другое зеркало в настройках.</p>
+          <p class="field-hint" id="offline-reason" hidden></p>
+          <div class="row-gap">
+            <button class="btn btn-primary" id="btn-site-retry">ПОВТОРИТЬ</button>
+            <button class="btn btn-ghost" id="btn-site-settings">НАСТРОЙКИ</button>
+            <button class="btn btn-ghost" id="btn-site-external">ОТКРЫТЬ В БРАУЗЕРЕ</button>
+          </div>
+        </div>
+        <webview id="site-view" partition="persist:regruha" allowpopups src="https://regruha.vercel.app"></webview>
+      </section>
+
+      <section class="view view-torrents" id="view-torrents">
+        <div class="panel-head">
+          <div>
+            <div class="eyebrow">ТОРРЕНТ-КЛИЕНТ</div>
+            <h1 class="title-lg">Загрузки</h1>
+          </div>
+          <div class="panel-head-actions">
+            <span class="engine-badge" id="engine-badge">ДВИЖОК: QBITTORRENT АВТО</span>
+            <button class="btn btn-ghost" id="btn-settings">⚙ НАСТРОЙКИ</button>
+            <button class="btn btn-ghost" id="btn-resume-all">ПРОДОЛЖИТЬ ВСЕ</button>
+            <button class="btn btn-ghost" id="btn-pause-all">ПАУЗА ВСЕ</button>
+          </div>
+        </div>
+
+        <div class="addbar">
+          <input id="magnet-input" class="input mono" type="text" spellcheck="false" placeholder="magnet:?xt=urn:btih:…">
+          <button class="btn btn-primary" id="btn-add-magnet">ДОБАВИТЬ</button>
+          <button class="btn btn-ghost" id="btn-open-torrent">ОТКРЫТЬ .TORRENT</button>
+        </div>
+
+        <div class="stats-row" id="stats-row">
+          <div class="stat-card">
+            <div class="stat-card-label">СКАЧИВАЕТСЯ</div>
+            <div class="stat-card-value" id="card-dl">0 Б/с</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">РАЗДАЁТСЯ</div>
+            <div class="stat-card-value" id="card-ul">0 Б/с</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">ТОРРЕНТОВ</div>
+            <div class="stat-card-value" id="card-count">0</div>
+          </div>
+          <div class="stat-card stat-card-wide">
+            <div class="stat-card-label">ПАПКА ЗАГРУЗОК</div>
+            <div class="stat-card-value mono small" id="card-path" data-no-brand>—</div>
+          </div>
+        </div>
+
+        <div class="engine-error" id="engine-error" hidden></div>
+
+        <div class="torrent-list" id="torrent-list" data-no-brand></div>
+
+        <div class="empty" id="torrent-empty">
+          <div class="empty-mark">⛊</div>
+          <div class="empty-title">Пока пусто</div>
+          <div class="empty-text">Скачайте <span class="mono">.torrent</span> на сайте — приложение предложит открыть его во встроенном клиенте. Или вставьте magnet-ссылку выше.</div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="site-dock" id="site-dock">
+      <button class="dock-btn is-active" id="dock-site" title="Сайт">
+        <svg class="dock-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="12.5"/><path d="M8.5 20.5h7M12 17.5v3"/></svg>
+        <span>САЙТ</span>
+      </button>
+      <button class="dock-btn" id="dock-torrents" title="Торренты">
+        <svg class="dock-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11"/><path d="M7 10l5 5 5-5"/><path d="M4 20h16"/></svg>
+        <span>ТОРРЕНТЫ</span>
+        <span class="pill" id="dock-count">0</span>
+      </button>
+    </nav>
+
+    <div class="toasts" id="toasts" data-no-brand></div>
+    <div class="modal-root" id="modal-root"></div>
+  </div>
+
+  <script src="js/format.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

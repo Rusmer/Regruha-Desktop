@@ -1,0 +1,40 @@
+{
+  "name": "regruha-desktop",
+  "productName": "Regruha",
+  "version": "1.0.0",
+  "description": "Regruha Desktop — десктоп-клиент Regruha со встроенным торрент-клиентом",
+  "main": "src/main/main.js",
+  "author": {
+    "name": "Regruha",
+    "url": "https://regruha.vercel.app"
+  },
+  "homepage": "https://regruha.vercel.app",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "smoke": "node scripts/smoke.js managed",
+    "smoke:qb": "node scripts/smoke.js qbittorrent",
+    "smoke:managed": "node scripts/smoke.js managed",
+    "test:config": "node scripts/config-test.js",
+    "test:managed": "node scripts/managed-test.js",
+    "fetch:qb": "node scripts/fetch-qbittorrent.js",
+    "fetch:qb:win": "node scripts/fetch-qbittorrent.js win-x64",
+    "rebuild": "electron-builder install-app-deps",
+    "dist": "electron-builder",
+    "dist:linux": "electron-builder --linux",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "dist:aur": "node scripts/build-aur.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3",
+    "webtorrent": "^3.0.21"
+  },
+  "allowScripts": {
+    "node-datachannel@0.32.3": true
+  }
+}

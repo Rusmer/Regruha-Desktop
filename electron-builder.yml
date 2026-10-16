@@ -1,0 +1,93 @@
+appId: app.regruha.desktop
+productName: Regruha
+copyright: Regruha Desktop
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - src/**/*
+  - package.json
+  - "!**/*.map"
+  - "!**/test/**"
+  - "!src/main/selftest.js"
+  - build/icon.png
+
+asar: true
+asarUnpack:
+  - "**/node_modules/node-datachannel/**"
+
+npmRebuild: false
+
+protocols:
+  - name: Magnet
+    schemes:
+      - magnet
+
+fileAssociations:
+  - ext: torrent
+    name: BitTorrent Metafile
+    description: Торрент-файл
+    mimeType: application/x-bittorrent
+    role: Viewer
+
+linux:
+  target:
+    - AppImage
+    - deb
+  category: Network
+  icon: build/icons
+  maintainer: "Regruha <noreply@regruha.vercel.app>"
+  synopsis: Regruha Desktop
+  description: Десктоп-клиент Regruha со встроенным торрент-клиентом
+  desktop:
+    entry:
+      MimeType: "application/x-bittorrent;x-scheme-handler/magnet;"
+  extraResources:
+    - from: vendor/qbittorrent
+      to: qbittorrent
+      filter:
+        - "**/*"
+        - "!win32-*/**"
+        - "!win-*/**"
+
+win:
+  target:
+    - nsis
+    - portable
+  icon: build/icon.png
+  extraResources:
+    - from: vendor/qbittorrent
+      to: qbittorrent
+      filter:
+        - "**/*"
+        - "!linux-*/**"
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  artifactName: "${productName}-${version}-setup.${ext}"
+  shortcutName: Regruha
+
+mac:
+  target:
+    - dmg
+    - zip
+  category: public.app-category.utilities
+  icon: build/icon.png
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    CFBundleName: Regruha
+    NSHumanReadableCopyright: Regruha Desktop
+    CFBundleDocumentTypes:
+      - CFBundleTypeName: BitTorrent Metafile
+        CFBundleTypeExtensions:
+          - torrent
+        CFBundleTypeRole: Viewer
+    CFBundleURLTypes:
+      - CFBundleURLName: Magnet link
+        CFBundleURLSchemes:
+          - magnet

@@ -1,0 +1,27 @@
+pkgbase = regruha-desktop
+	pkgdesc = Десктоп-клиент Regruha со встроенным торрент-клиентом
+	pkgver = 1.0.0
+	pkgrel = 1
+	url = regruha
+	arch = x86_64
+	license = MIT
+	depends = alsa-lib
+	depends = at-spi2-core
+	depends = dbus
+	depends = expat
+	depends = gtk3
+	depends = hicolor-icon-theme
+	depends = icu
+	depends = libcups
+	depends = libxkbcommon
+	depends = libxml2
+	depends = mesa
+	depends = nss
+	depends = systemd-libs
+	options = !strip
+	options = !debug
+	options = !emptydirs
+	source = Regruha-1.0.0.AppImage
+	sha256sums = 2256fd3e190be4bbcf7d045bd4e9a55f38835cb728039af08e5ddd42c9adb8e8
+
+pkgname = regruha-desktop

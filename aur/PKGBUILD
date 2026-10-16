@@ -1,0 +1,38 @@
+pkgname=regruha-desktop
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Десктоп-клиент Regruha со встроенным торрент-клиентом"
+arch=('x86_64')
+url="regruha"
+license=('MIT')
+depends=('alsa-lib' 'at-spi2-core' 'dbus' 'expat' 'gtk3' 'hicolor-icon-theme' 'icu' 'libcups' 'libxkbcommon' 'libxml2' 'mesa' 'nss' 'systemd-libs')
+options=('!strip' '!debug' '!emptydirs')
+source=("Regruha-$pkgver.AppImage")
+sha256sums=('2256fd3e190be4bbcf7d045bd4e9a55f38835cb728039af08e5ddd42c9adb8e8')
+
+build() {
+  cd "$srcdir"
+  chmod +x "Regruha-$pkgver.AppImage"
+  ./"Regruha-$pkgver.AppImage" --appimage-extract >/dev/null
+}
+
+package() {
+  install -dm755 "$pkgdir/opt/$pkgname"
+  cp -a "$srcdir/squashfs-root/." "$pkgdir/opt/$pkgname/"
+
+  install -Dm755 /dev/stdin "$pkgdir/usr/bin/regruha" <<'WRAPPER'
+#!/bin/sh
+exec /opt/regruha-desktop/AppRun --no-sandbox "$@"
+WRAPPER
+
+  install -Dm644 "$srcdir/squashfs-root/regruha-desktop.desktop" \
+    "$pkgdir/usr/share/applications/regruha-desktop.desktop"
+  sed -i 's|^Exec=.*|Exec=regruha %U|' "$pkgdir/usr/share/applications/regruha-desktop.desktop"
+  sed -i '/^X-AppImage-Version=/d' "$pkgdir/usr/share/applications/regruha-desktop.desktop"
+
+  install -dm755 "$pkgdir/usr/share/icons"
+  cp -a "$srcdir/squashfs-root/usr/share/icons/hicolor" "$pkgdir/usr/share/icons/"
+
+  install -Dm644 "$srcdir/squashfs-root/usr/share/mime/packages/regruha-desktop.xml" \
+    "$pkgdir/usr/share/mime/packages/regruha-desktop.xml"
+}
